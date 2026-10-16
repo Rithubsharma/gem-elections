@@ -78,19 +78,27 @@
             </p>
         </div>
 
-        <!-- Suggestion Form -->
-        <form id="manifestoForm" class="bg-white rounded-2xl shadow-md border border-slate-100 p-4 sm:p-6 space-y-5">
+        <!-- Hidden iframe — Google Forms response loads here, page stays intact -->
+        <iframe id="frmtarget" name="frmtarget" style="display:none"></iframe>
+
+        <!-- Suggestion Form — posts directly to Google Forms via hidden iframe -->
+        <form id="manifestoForm"
+              action="https://docs.google.com/forms/d/e/1FAIpQLSeI10uIyHrWMagh8O0_d8CWWcJKHPyuB-fjmdIbqC2E2LTJrA/formResponse"
+              method="POST"
+              target="frmtarget"
+              onsubmit="handleSubmit(event)"
+              class="bg-white rounded-2xl shadow-md border border-slate-100 p-4 sm:p-6 space-y-5">
 
             <!-- Name + Phone -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                     <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">आपका नाम*</label>
-                    <input type="text" id="voterName" required placeholder="अपना पूरा नाम लिखें"
+                    <input type="text" name="entry.415200161" required placeholder="अपना पूरा नाम लिखें"
                            class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-sky-500 focus:outline-none">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">मोबाइल नंबर</label>
-                    <input type="tel" id="voterPhone" pattern="[0-9]{10}" placeholder="10-अंकों का नंबर (वैकल्पिक)"
+                    <input type="tel" name="entry.2086731062" pattern="[0-9]{10}" placeholder="10-अंकों का नंबर (वैकल्पिक)"
                            class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-sky-500 focus:outline-none">
                 </div>
             </div>
@@ -98,7 +106,7 @@
             <!-- Ward -->
             <div>
                 <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">वार्ड नंबर*</label>
-                <select id="wardNo" required
+                <select name="entry.1408874831" required
                         class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-sky-500 focus:outline-none bg-white">
                     <option value="">वार्ड चुनें</option>
                     <option value="1">वार्ड 1</option>
@@ -126,42 +134,42 @@
                 <div class="space-y-2">
 
                     <label class="concern-label flex items-start gap-3 p-3 rounded-xl border border-slate-100 active:bg-slate-50 hover:bg-slate-50 cursor-pointer transition">
-                        <input type="checkbox" name="concerns"
+                        <input type="checkbox" name="entry.1403929299"
                                value="युवाओं के लिए रोज़गार और स्वरोज़गार के अवसर तलाशना।"
                                class="mt-1 w-5 h-5 text-sky-600 rounded border-slate-300 focus:ring-sky-500 flex-shrink-0">
                         <span class="text-sm text-slate-700">युवाओं के लिए रोज़गार और स्वरोज़गार के अवसर तलाशना।</span>
                     </label>
 
                     <label class="concern-label flex items-start gap-3 p-3 rounded-xl border border-slate-100 active:bg-slate-50 hover:bg-slate-50 cursor-pointer transition">
-                        <input type="checkbox" name="concerns"
+                        <input type="checkbox" name="entry.1403929299"
                                value="स्कूलों का अपग्रेडेशन: ब्लॉक स्तर पर सरकारी स्कूलों में बुनियादी सुविधाएं (जैसे शौचालय, पेयजल, खेल मैदान) और शिक्षकों की कमी को दूर करना।"
                                class="mt-1 w-5 h-5 text-sky-600 rounded border-slate-300 focus:ring-sky-500 flex-shrink-0">
                         <span class="text-sm text-slate-700">स्कूलों का अपग्रेडेशन: सरकारी स्कूलों में बुनियादी सुविधाएं और शिक्षकों की कमी दूर करना।</span>
                     </label>
 
                     <label class="concern-label flex items-start gap-3 p-3 rounded-xl border border-slate-100 active:bg-slate-50 hover:bg-slate-50 cursor-pointer transition">
-                        <input type="checkbox" name="concerns"
+                        <input type="checkbox" name="entry.1403929299"
                                value="शुद्ध पेयजल और जल प्रबंधन"
                                class="mt-1 w-5 h-5 text-sky-600 rounded border-slate-300 focus:ring-sky-500 flex-shrink-0">
                         <span class="text-sm text-slate-700">हर घर नल योजना सुचारू करना और शुद्ध पेयजल आपूर्ति सुनिश्चित करना।</span>
                     </label>
 
                     <label class="concern-label flex items-start gap-3 p-3 rounded-xl border border-slate-100 active:bg-slate-50 hover:bg-slate-50 cursor-pointer transition">
-                        <input type="checkbox" name="concerns"
+                        <input type="checkbox" name="entry.1403929299"
                                value="सड़क, नाली और स्ट्रीट लाइट व्यवस्था"
                                class="mt-1 w-5 h-5 text-sky-600 rounded border-slate-300 focus:ring-sky-500 flex-shrink-0">
                         <span class="text-sm text-slate-700">वार्डों में पक्की सड़कें, जल निकासी और स्ट्रीट लाइट।</span>
                     </label>
 
                     <label class="concern-label flex items-start gap-3 p-3 rounded-xl border border-slate-100 active:bg-slate-50 hover:bg-slate-50 cursor-pointer transition">
-                        <input type="checkbox" name="concerns"
+                        <input type="checkbox" name="entry.1403929299"
                                value="स्वास्थ्य सेवाएं और स्वच्छता"
                                class="mt-1 w-5 h-5 text-sky-600 rounded border-slate-300 focus:ring-sky-500 flex-shrink-0">
                         <span class="text-sm text-slate-700">प्राथमिक स्वास्थ्य केंद्र (PHC) की बेहतरी और नियमित सफाई व्यवस्था।</span>
                     </label>
 
                     <label class="concern-label flex items-start gap-3 p-3 rounded-xl border border-slate-100 active:bg-slate-50 hover:bg-slate-50 cursor-pointer transition">
-                        <input type="checkbox" name="concerns"
+                        <input type="checkbox" name="entry.1403929299"
                                value="महिला सशक्तिकरण और स्व-सहायता समूह"
                                class="mt-1 w-5 h-5 text-sky-600 rounded border-slate-300 focus:ring-sky-500 flex-shrink-0">
                         <span class="text-sm text-slate-700">महिलाओं के लिए SHG ऋण सहायता और कौशल प्रशिक्षण।</span>
@@ -173,7 +181,7 @@
             <!-- Custom suggestion -->
             <div>
                 <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">अन्य सुझाव (Optional)</label>
-                <textarea id="customSuggestion" rows="3"
+                <textarea name="entry.1327577914" rows="3"
                           placeholder="अपने वार्ड या मोरक पंचायत से जुड़ा कोई अन्य सुझाव यहाँ लिखें..."
                           class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-sky-500 focus:outline-none resize-none"></textarea>
             </div>
@@ -211,46 +219,16 @@
     </footer>
 
     <script>
+        function handleSubmit(e) {
+            document.getElementById('frmtarget').onload = function() {
+                document.getElementById('successModal').classList.remove('hidden');
+            };
+        }
+
         function closeSuccessModal() {
             document.getElementById('successModal').classList.add('hidden');
             document.getElementById('manifestoForm').reset();
         }
-
-        // ⚠️ Replace with your deployed Apps Script Web App URL
-        const APPS_SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
-
-        document.getElementById('manifestoForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> सबमिट हो रहा है...`;
-
-            // URLSearchParams = application/x-www-form-urlencoded (CORS-safe, no preflight)
-            const formData = new URLSearchParams();
-            formData.append('name',       document.getElementById('voterName').value);
-            formData.append('phone',      document.getElementById('voterPhone').value);
-            formData.append('ward',       document.getElementById('wardNo').value);
-            formData.append('suggestion', document.getElementById('customSuggestion').value);
-            document.querySelectorAll('input[name="concerns"]:checked').forEach(cb => {
-                formData.append('concerns', cb.value);
-            });
-
-            try {
-                await fetch(APPS_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    body: formData
-                });
-                document.getElementById('successModal').classList.remove('hidden');
-            } catch (err) {
-                console.error('Submission error:', err);
-                alert('सबमिट करने में समस्या आई। कृपया दोबारा प्रयास करें।');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> सुझाव सबमिट करें`;
-            }
-        });
     </script>
 </body>
 </html>
