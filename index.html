@@ -15,9 +15,12 @@
         input, select, textarea { font-size: 16px !important; }
         /* Larger tap targets for checkboxes on mobile */
         .concern-label { min-height: 48px; }
+        #frmtarget { display: none; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <iframe id="frmtarget" name="frmtarget"></iframe>
 
     <!-- Top Tricolor Banner -->
     <div class="h-2 w-full tricolor-bar"></div>
@@ -77,9 +80,6 @@
                 ग्राम पंचायत मोरक के समग्र विकास को नई दिशा देने के लिए अभिषेक श्रृंगी के नेतृत्व में जन घोषणा-पत्र तैयार किया जा रहा है। नीचे दिए गए प्रमुख मुद्दों में अपनी पसंद चुनें या अपना नया सुझाव दर्ज करें।
             </p>
         </div>
-
-        <!-- Hidden iframe — Google Forms response loads here, page stays intact -->
-        <iframe id="frmtarget" name="frmtarget" style="display:none"></iframe>
 
         <!-- Suggestion Form — posts directly to Google Forms via hidden iframe -->
         <form id="manifestoForm"
@@ -193,24 +193,21 @@
             </button>
         </form>
 
-    </main>
-
-    <!-- Success Modal -->
-    <div id="successModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 hidden">
-        <div class="bg-white rounded-t-3xl sm:rounded-3xl w-full sm:max-w-md p-8 text-center shadow-2xl">
-            <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-4">
-                <i class="fa-solid fa-circle-check"></i>
-            </div>
-            <h3 class="text-2xl font-bold text-slate-900 mb-2">धन्यवाद!</h3>
+        <!-- Success state — shown after submit, hidden initially -->
+        <div id="successView" class="bg-white rounded-2xl shadow-md border border-slate-100 p-8 text-center" hidden>
+            <div class="text-5xl mb-4">🙏</div>
+            <h3 class="text-2xl font-bold text-emerald-700 mb-2">धन्यवाद!</h3>
             <p class="text-slate-600 text-sm leading-relaxed mb-6">
-                आपका अमूल्य सुझाव प्राप्त हो गया है! मोरक के उज्ज्वल भविष्य के लिए धन्यवाद। — अभिषेक श्रृंगी
+                आपका अमूल्य सुझाव प्राप्त हो गया है! मोरक के उज्ज्वल भविष्य के लिए धन्यवाद।<br>
+                <strong class="text-slate-800">— अभिषेक श्रृंगी</strong>
             </p>
-            <button onclick="closeSuccessModal()"
-                    class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-4 rounded-xl transition text-base">
-                दूसरा सुझाव दर्ज करें
+            <button onclick="resetForm()"
+                    class="w-full bg-slate-800 hover:bg-slate-700 text-white font-semibold py-4 rounded-xl transition text-base">
+                ↻ दूसरा सुझाव दर्ज करें
             </button>
         </div>
-    </div>
+
+    </main>
 
     <!-- Footer -->
     <footer class="bg-slate-900 text-slate-400 py-5 text-center text-xs mt-8 border-t border-slate-800 px-4">
@@ -220,16 +217,18 @@
 
     <script>
         function handleSubmit(e) {
+            // Let form POST to Google Forms via hidden iframe, show success after delay
             setTimeout(function() {
                 document.getElementById('manifestoForm').hidden = true;
-                document.getElementById('successModal').classList.remove('hidden');
+                document.getElementById('successView').hidden = false;
             }, 800);
         }
 
-        function closeSuccessModal() {
-            document.getElementById('successModal').classList.add('hidden');
-            document.getElementById('manifestoForm').hidden = false;
-            document.getElementById('manifestoForm').reset();
+        function resetForm() {
+            var form = document.getElementById('manifestoForm');
+            form.reset();
+            form.hidden = false;
+            document.getElementById('successView').hidden = true;
         }
     </script>
 </body>
