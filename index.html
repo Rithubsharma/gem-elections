@@ -220,13 +220,15 @@
 
     <script>
         function handleSubmit(e) {
-            document.getElementById('frmtarget').onload = function() {
+            setTimeout(function() {
+                document.getElementById('manifestoForm').hidden = true;
                 document.getElementById('successModal').classList.remove('hidden');
-            };
+            }, 800);
         }
 
         function closeSuccessModal() {
             document.getElementById('successModal').classList.add('hidden');
+            document.getElementById('manifestoForm').hidden = false;
             document.getElementById('manifestoForm').reset();
         }
     </script>
