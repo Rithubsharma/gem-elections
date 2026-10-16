@@ -216,59 +216,39 @@
             document.getElementById('manifestoForm').reset();
         }
 
-        document.getElementById('manifestoForm').addEventListener('submit', function(e) {
+        // ⚠️ Replace this URL with your deployed Apps Script Web App URL
+        const APPS_SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
+
+        document.getElementById('manifestoForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true;
             submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> सबमिट हो रहा है...`;
 
-            const GOOGLE_FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSeI10uIyHrWMagh8O0_d8CWWcJKHPyuB-fjmdIbqC2E2LTJrA/formResponse";
-
-            // Hidden iframe — real browser POST, bypasses CORS issues with fetch
-            let iframe = document.getElementById('hidden_iframe');
-            if (!iframe) {
-                iframe = document.createElement('iframe');
-                iframe.id = 'hidden_iframe';
-                iframe.name = 'hidden_iframe';
-                iframe.style.display = 'none';
-                document.body.appendChild(iframe);
-            }
-
-            // Build a hidden form targeting the iframe
-            const gForm = document.createElement('form');
-            gForm.action = GOOGLE_FORM_ACTION;
-            gForm.method = 'POST';
-            gForm.target = 'hidden_iframe';
-            gForm.style.display = 'none';
-
-            function addField(name, value) {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = name;
-                input.value = value;
-                gForm.appendChild(input);
-            }
-
-            addField('entry.415200161', document.getElementById('voterName').value);
-            addField('entry.2086731062', document.getElementById('voterPhone').value);
-            addField('entry.1408874831', document.getElementById('wardNo').value);
-            addField('entry.1327577914', document.getElementById('customSuggestion').value);
-
-            document.querySelectorAll('input[name="concerns"]:checked').forEach(cb => {
-                addField('entry.1403929299', cb.value);
-            });
-
-            document.body.appendChild(gForm);
-
-            iframe.onload = function() {
-                document.getElementById('successModal').classList.remove('hidden');
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> सुझाव सबमिट करें`;
-                document.body.removeChild(gForm);
+            const payload = {
+                name:       document.getElementById('voterName').value,
+                phone:      document.getElementById('voterPhone').value,
+                ward:       document.getElementById('wardNo').value,
+                suggestion: document.getElementById('customSuggestion').value,
+                concerns:   Array.from(document.querySelectorAll('input[name="concerns"]:checked')).map(cb => cb.value)
             };
 
-            gForm.submit();
+            try {
+                // text/plain avoids CORS preflight; Apps Script reads body as JSON
+                await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
+                document.getElementById('successModal').classList.remove('hidden');
+            } catch (err) {
+                console.error('Submission error:', err);
+                alert('सबमिट करने में समस्या आई। कृपया दोबारा प्रयास करें।');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> सुझाव सबमिट करें`;
+            }
         });
     </script>
 </body>
